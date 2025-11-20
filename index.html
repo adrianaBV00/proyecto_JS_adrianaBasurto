@@ -18,7 +18,7 @@
 
 <body>
 
-    <nav class="navbar navbar-dark bg-dark">
+    <nav class="navbar fixed-top navbar-dark bg-dark">
         <div class="container-fluid mx-3 mt-2">
             <a class="navbar-brand" href="#">
                 <i class="fa-solid fa-ghost fa-xl"></i>
@@ -26,58 +26,66 @@
             </a>
             <button id="carrito" type="button" class="btn btn-dark position-relative">
                 <i class="fa-solid fa-cart-shopping fa-xl"></i>
-                <span
-                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="art_totales">
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                    id="art_totales">
                     0
                 </span>
             </button>
         </div>
     </nav>
 
-    <h1 class="title">Productos</h1>
-    
-    <!-- modal carrito -->
-    <div class="modal" id="modal_carrito" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 class="modal-title">Carrito de compras</h5>
-                    <button type="button" id="btn_cerrar_carrito" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body-carrito">
-                </div>
-                <div class="modal-footer">
-                    <h5 id="total"></h3>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="finalizar_compra">Finalizar</button>
-                    <button type="button" class="btn btn-primary" id="vaciar_carrito">Vaciar</button>
+    <div class="mt-5">
+        <h1 class="title">Productos</h1>
+
+        <!-- modal carrito -->
+        <div class="modal" id="modal_carrito" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Carrito de compras</h5>
+                            <button type="button" id="btn_cerrar_carrito" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body-carrito">
+                    </div>
+                    <div class="modal-footer">
+                        <h5 id="total">
+                            </h3>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                                id="finalizar_compra">Finalizar</button>
+                            <button type="button" class="btn btn-primary" id="vaciar_carrito">Vaciar</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    
 
-    <!-- modal mostrar producto -->
-    <div class="modal" id="modal_producto" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title-producto" id="exampleModalLabel">Modal title</h5>
-                    <button type="button" id="btn_cerrar_producto" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body-producto">
-                    
-                </div>
-                <div class="modal-footer">
-                    <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
-                    <button id="btn_agregar_carrito" type="button" class="btn btn-primary">Agregar Carrito</button>
+
+        <!-- modal mostrar producto -->
+        <div class="modal" id="modal_producto" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title-producto" id="exampleModalLabel">Modal title</h5>
+                        <button type="button" id="btn_cerrar_producto" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body-producto">
+
+                    </div>
+                    <div class="modal-footer">
+                        <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
+                        <button id="btn_agregar_carrito" type="button" class="btn btn-primary">Agregar Carrito</button>
+                    </div>
                 </div>
             </div>
         </div>
+
+        <section id="contenedor_productos">
+
+        </section>
     </div>
 
-    <section id="contenedor_productos">
 
-    </section>
 
     <!-- Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
