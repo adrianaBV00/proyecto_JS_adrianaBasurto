@@ -353,8 +353,10 @@ function show_carrito(){
             const boton_eliminar = document.getElementById(`${id}`)
 
             boton_eliminar.addEventListener("click",()=>{
-                // console.log(id)
+                console.log(id)
                 eliminar_del_carrito(id);
+                show_carrito();
+                show_productos();
             })
 
         });
