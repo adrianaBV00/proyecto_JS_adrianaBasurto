@@ -420,39 +420,3 @@ main();
 
 
 
-// do{
-//     let info = "Elige una opcion (numero):\n"
-//     for(let i=0; i<MENU.length; i++){
-//         info+=`${i+1}.- ${MENU[i]}\n`
-//     }
-
-//     opcion = parseInt(prompt(info))
-//     // console.log(opcion)
-//     if(!isNaN(opcion)){
-//         // ver carrito
-//         if(opcion===1){
-//             ver_carrito();
-//         }
-//         // Comprar un producto
-//         else if(opcion===2){
-//             comprar_producto();
-//         }
-
-//         // Eliminar un producto del carrito
-//         else if(opcion===3){
-//             eliminar_del_carrito();
-//         }
-
-//         // Total a pagar
-//         else if(opcion===4){
-//             total_a_pagar();
-//         }
-
-//         else if(opcion!==5){
-//             alert("Opcion invalida")
-//         }
-        
-//     }
-
-// }while(opcion !== MENU.length);
-
