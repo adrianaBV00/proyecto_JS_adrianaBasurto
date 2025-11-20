@@ -1,27 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Entregable 1</title>
+
+    <script src="https://kit.fontawesome.com/003da4fba2.js" crossorigin="anonymous"></script>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <!-- JS -->
+    <script src="./js/productos_tienda.js"></script>
+    <script defer src="./js/script.js"></script>
+    <title>Entregable 2</title>
 </head>
+
 <body>
-    <h1>Entregable 1 JS</h1>
-    <h3>Simulador de un carrito de compras</h3>
-    <p>
-        El programa simula un carrito de compras, donde el usuario podra elegir un opcion del siguiente menu:
-        <br>
-        1.- Ver carrito
-        <br>
-        2.- Agregar prodcuto al carrito:
-        <br>
-        3.- Eliminar un prodcuto del carrito
-        <br>
-        4.- Total a pagar: Muestra el total de articulos en el carrito y el total a pagar
-        <br>
-        5.- Salir
+
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid mx-3 mt-2">
+            <a class="navbar-brand" href="#">
+                <i class="fa-solid fa-ghost fa-xl"></i>
+                Tienda Online
+            </a>
+            <button id="carrito" type="button" class="btn btn-dark position-relative">
+                <i class="fa-solid fa-cart-shopping fa-xl"></i>
+                <span
+                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="art_totales">
+                    0
+                </span>
+            </button>
+        </div>
+    </nav>
+
+    <h1 class="title">Productos</h1>
     
-    </p>
-    <script src="./js/script.js"></script>
+    <!-- modal carrito -->
+    <div class="modal" id="modal_carrito" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Carrito de compras</h5>
+                    <button type="button" id="btn_cerrar_carrito" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body-carrito">
+                </div>
+                <div class="modal-footer">
+                    <h5 id="total"></h3>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="finalizar_compra">Finalizar</button>
+                    <button type="button" class="btn btn-primary" id="vaciar_carrito">Vaciar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    <!-- modal mostrar producto -->
+    <div class="modal" id="modal_producto" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title-producto" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" id="btn_cerrar_producto" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body-producto">
+                    
+                </div>
+                <div class="modal-footer">
+                    <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
+                    <button id="btn_agregar_carrito" type="button" class="btn btn-primary">Agregar Carrito</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section id="contenedor_productos">
+
+    </section>
+
+    <!-- Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+
+
 </body>
+
 </html>
