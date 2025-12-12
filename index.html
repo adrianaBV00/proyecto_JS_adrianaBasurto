@@ -6,70 +6,151 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <script src="https://kit.fontawesome.com/003da4fba2.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
     <!-- JS -->
-    <script src="./js/productos_tienda.js"></script>
     <script defer src="./js/script.js"></script>
     <title>Entregable 2</title>
 </head>
 
 <body>
 
-    <nav class="navbar fixed-top navbar-dark bg-dark">
+    <nav class="navbar navbar-dark bg-dark">
         <div class="container-fluid mx-3 mt-2">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="#" id="logo">
                 <i class="fa-solid fa-ghost fa-xl"></i>
                 Tienda Online
             </a>
-            <button id="carrito" type="button" class="btn btn-dark position-relative">
+            <button id="carrito" type="button" class="btn btn-dark position-relative" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
                 <i class="fa-solid fa-cart-shopping fa-xl"></i>
                 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
                     id="art_totales">
                     0
                 </span>
             </button>
-        </div>
-    </nav>
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Carrito de compras</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    
+                </div>
+                <div class="offcanvas-footer">
+                    <h5 class="in-line" id="total"></h5>
+                    <h5 class="in-line" id="total_num"></h5>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                            id="finalizar_compra">Finalizar</button>
+                            
+                    <button type="button" class="btn btn-primary" id="vaciar_carrito">Vaciar</button>
 
-    <div class="mt-5">
-        <h1 class="title">Productos</h1>
-
-        <!-- modal carrito -->
-        <div class="modal" id="modal_carrito" tabindex="-1">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h3 class="modal-title">Carrito de compras</h5>
-                            <button type="button" id="btn_cerrar_carrito" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body-carrito">
-                    </div>
-                    <div class="modal-footer">
-                        <h5 id="total">
-                            </h3>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                                id="finalizar_compra">Finalizar</button>
-                            <button type="button" class="btn btn-primary" id="vaciar_carrito">Vaciar</button>
-                    </div>
+                        
+                                
+                                                   
                 </div>
             </div>
         </div>
 
+        <div class="filters">
+
+            <div class="dropdown">
+              <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                ORDENAR
+              </button>
+              <ul class="dropdown-menu" id="ordenarBy">
+                <li><a class="dropdown-item" href="#">Action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+              </ul>
+            </div>
+            
+            <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasFiltrar" aria-controls="offcanvasFiltrar">
+                FILTRAR
+            </button>
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasFiltrar" aria-labelledby="offcanvasFiltrarLabel">
+                <div class="offcanvas-header">
+                <!-- <h5 class="offcanvas-title" id="offcanvasFiltrarLabel">Filtros</h5> -->
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body" id="filtros">
+                    <a href="#" id="limpiarFiltros">Limpiar filtros</a>
+
+                    <div class="accordion" id="accordionPanelsStayOpenExample">
+                      <div class="accordion-item">
+                        <h2 class="accordion-header">
+                          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                            Marca
+                          </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
+                          <div class="accordion-body" id="marcas">
+                            
+                          </div>
+                        </div>
+                      </div>
+                      <div class="accordion-item">
+                        <h2 class="accordion-header">
+                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                            Categoria
+                          </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
+                          <div class="accordion-body" id="categoria">
+                            
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+
+    </nav>
+
+    <div class="main">
+
+        <h1 class="title">Productos</h1>
 
         <!-- modal mostrar producto -->
         <div class="modal" id="modal_producto" tabindex="-1">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title-producto" id="exampleModalLabel">Modal title</h5>
+                        <h5 class="modal-title-producto" id="exampleModalLabel"></h5>
                         <button type="button" id="btn_cerrar_producto" class="btn-close" data-bs-dismiss="modal"
                             aria-label="Close"></button>
                     </div>
                     <div class="modal-body-producto">
+                        <div class="card">
+                            <div class="card-img">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title"></h5>
+                                <h6 class="card-subtitle"></h6>
+                                <div class ="row">
+                                    <div class = "col-6">
+                                        <p class="card-text card-price"></p>
+                                    </div>  
+                                    <div class = "col-6">
+                                        <p class="card-text card-rating"></p>
+                                    </div>
+                                </div>
+                                <p class="card-text card-category"></p>
+                                <p class="card-text card-description"></p>
+                                <div class="row card-cantidad">
+                                    <label for="cantidad">Cantidad:</label>
+                                    <button id="btn_menos">-</button>
+                                    <input type="number" id="cantidad" min=1 max=20 value=1>
+                                    <button id="btn_mas">+</button>
+                                </div>
+                            </div>
+
+                        </div>
 
                     </div>
                     <div class="modal-footer">
@@ -80,7 +161,8 @@
             </div>
         </div>
 
-        <section id="contenedor_productos">
+        <section id="contenedor">
+            <div id="contenedor_productos" class="row row-cols-2 row-cols-md-4 m-2 g-4" ></div>
 
         </section>
     </div>
