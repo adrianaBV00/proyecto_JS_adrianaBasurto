@@ -13,108 +13,131 @@
 
     <!-- JS -->
     <script defer src="./js/script.js"></script>
+    <!-- estilos CSS -->
+     <link rel="stylesheet" href="./css/style.css">
     <title>Entregable 2</title>
 </head>
 
 <body>
 
-    <nav class="navbar navbar-dark bg-dark">
+    <nav class="navbar fixed-top navbar-dark bg-dark">
         <div class="container-fluid mx-3 mt-2">
             <a class="navbar-brand" href="#" id="logo">
                 <i class="fa-solid fa-ghost fa-xl"></i>
-                Tienda Online
+                 Tienda Online
             </a>
-            <button id="carrito" type="button" class="btn btn-dark position-relative" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+            <button id="carrito" type="button" class="btn btn-dark position-relative" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCarrito" aria-controls="offcanvasCarrito">
                 <i class="fa-solid fa-cart-shopping fa-xl"></i>
                 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
                     id="art_totales">
                     0
                 </span>
             </button>
-            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasCarrito" aria-labelledby="offcanvasCarritoLabel">
                 <div class="offcanvas-header">
-                    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Carrito de compras</h5>
+                    <h5 class="offcanvas-title" id="offcanvasCarritoLabel">Carrito de compras</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
-                <div class="offcanvas-body">
+                <div class="offcanvas-body carrito">
+                    <div class="contenedor-carrito">
+
+                    </div>
                     
                 </div>
-                <div class="offcanvas-footer">
-                    <h5 class="in-line" id="total"></h5>
-                    <h5 class="in-line" id="total_num"></h5>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                            id="finalizar_compra">Finalizar</button>
-                            
-                    <button type="button" class="btn btn-primary" id="vaciar_carrito">Vaciar</button>
+                <div class="offcanvas-footer" id="total_carrito">
+                    <div class="total-cart">
+                        <div class="row">
+                            <h5 class="col-6">Total a pagar:</h5>
+                            <h5 class="col-6 text-end" id="total_num"></h5>
+                        </div>
+                    </div>
+                    
+                    <div class="btn-footer-cart">
 
                         
-                                
-                                                   
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                            id="finalizar_compra">Finalizar</button>
+                            
+                        <button type="button" class="btn btn-primary" id="vaciar_carrito">Vaciar</button>
+
+                    </div>
+                    
+                                                    
                 </div>
             </div>
-        </div>
+        </div>    
+    </nav>
 
-        <div class="filters">
-
-            <div class="dropdown">
-              <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                ORDENAR
-              </button>
-              <ul class="dropdown-menu" id="ordenarBy">
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
-              </ul>
-            </div>
-            
-            <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasFiltrar" aria-controls="offcanvasFiltrar">
-                FILTRAR
-            </button>
-            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasFiltrar" aria-labelledby="offcanvasFiltrarLabel">
-                <div class="offcanvas-header">
-                <!-- <h5 class="offcanvas-title" id="offcanvasFiltrarLabel">Filtros</h5> -->
-                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    <div class="fixed filters">
+        <div class="row row-cols-3 row-cols-sm-2 justify-content-between justify-content-sm-around">
+            <div class="col-6 col-sm-4">
+                <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Ordenar
+                    </button>
+                    <ul class="dropdown-menu" id="ordenarBy">
+                    </ul>
                 </div>
-                <div class="offcanvas-body" id="filtros">
-                    <a href="#" id="limpiarFiltros">Limpiar filtros</a>
+            </div>
+            <div class="col-6 col-sm-4">
+                <button class="btn btn-primary btn-filter" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasFiltrar" aria-controls="offcanvasFiltrar">
+                    Filtrar
+                </button>
+                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasFiltrar" aria-labelledby="offcanvasFiltrarLabel">
+                    <div class="offcanvas-header">
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        <p class="offcanvas-title" id="offcanvasFiltrarLabel"><a href="#" id="limpiarFiltros" >Limpiar filtros </a> </p>
+                        
+                    </div>
+                    <div class="offcanvas-body" id="filtros">
+                        
+                        <div class="accordion" id="accordionPanelsStayOpenExample">
+                          <div class="accordion-item">
+                            <h2 class="accordion-header">
+                              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                                Marca
+                              </button>
+                            </h2>
+                            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
+                              <div class="accordion-body" id="marcas">
 
-                    <div class="accordion" id="accordionPanelsStayOpenExample">
-                      <div class="accordion-item">
-                        <h2 class="accordion-header">
-                          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-                            Marca
-                          </button>
-                        </h2>
-                        <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
-                          <div class="accordion-body" id="marcas">
-                            
+                              </div>
+                            </div>
+                          </div>
+                          <div class="accordion-item">
+                            <h2 class="accordion-header">
+                              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                                Categoria
+                              </button>
+                            </h2>
+                            <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
+                              <div class="accordion-body" id="categoria">
+
+                              </div>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                      <div class="accordion-item">
-                        <h2 class="accordion-header">
-                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
-                            Categoria
-                          </button>
-                        </h2>
-                        <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
-                          <div class="accordion-body" id="categoria">
-                            
-                          </div>
-                        </div>
-                      </div>
                     </div>
                 </div>
             </div>
+            <div class="col-12 col-sm-4 search">
+                <form role="search">
+                    <div class="row justify-content-between" >
+                        <div class="col-11">
+                            <input class="form-control" id="input_buscar" type="search" placeholder="Buscar Producto" aria-label="Search"/>
+                        </div>
+                        <div class="col-1">
+                            <button class="btn btn-primary" id ="btn-buscar" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                        </div>
+                    </div>                   
+                </form> 
+            </div>
         </div>
-        
+    </div>
 
+    <div class="container-fluid main">
 
-    </nav>
-
-    <div class="main">
-
-        <h1 class="title">Productos</h1>
+        <h1 class="title"></h1>
 
         <!-- modal mostrar producto -->
         <div class="modal" id="modal_producto" tabindex="-1">
@@ -140,13 +163,16 @@
                                         <p class="card-text card-rating"></p>
                                     </div>
                                 </div>
-                                <p class="card-text card-category"></p>
-                                <p class="card-text card-description"></p>
-                                <div class="row card-cantidad">
-                                    <label for="cantidad">Cantidad:</label>
-                                    <button id="btn_menos">-</button>
-                                    <input type="number" id="cantidad" min=1 max=20 value=1>
-                                    <button id="btn_mas">+</button>
+                                <p class="card-category"></p>
+                                <p class="card-description"></p>
+                                <div class="card-cantidad">
+                                    <label for="cantidad"><strong>Cantidad:</strong></label>
+                                    <div class="modificar-cantidad">
+                                        <button id="btn_menos" class="btn btn-primary btn-sm"><i class="fa-solid fa-minus fa-2xs"></i></button>
+                                        <input type="number" id="cantidad" min=1 max=20 value=1>
+                                        <button id="btn_mas" class="btn btn-primary btn-sm"><i class="fa-solid fa-plus fa-2xs"></i></button>
+                                    </div>
+                                    
                                 </div>
                             </div>
 
@@ -162,8 +188,7 @@
         </div>
 
         <section id="contenedor">
-            <div id="contenedor_productos" class="row row-cols-2 row-cols-md-4 m-2 g-4" ></div>
-
+            <div id="contenedor_productos" class="row row-cols-1 row-cols-md-3 row-cols-lg-4  m-1 g-4" ></div>
         </section>
     </div>
 

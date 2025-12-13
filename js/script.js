@@ -8,10 +8,11 @@ const shop_cart = document.getElementById("carrito");
 const modal_producto = document.getElementById('modal_producto');
 // const modal_carrito = document.getElementById('modal_carrito');
 const contenedor_productos = document.getElementById('contenedor_productos');
-const contenedor_carrito = document.querySelector('.offcanvas-body')
-const contenedor_modal_producto = document.querySelector('.modal-body-producto')
+const contenedor_carrito = document.querySelector('.contenedor-carrito');
+const contenedor = document.getElementById('contenedor');
+const contenedor_modal_producto = document.querySelector('.modal-body-producto');
 const total_art = document.getElementById('art_totales');
-const total_carrito = document.getElementById("total");
+const total_carrito = document.getElementById("total_carrito");
 const total_num = document.getElementById("total_num");
 const btn_cerrar_carrito = document.getElementById("btn_cerrar_carrito");
 const btn_cerrar_producto = document.getElementById("btn_cerrar_producto");
@@ -19,12 +20,12 @@ const btn_agregar_carrito = document.getElementById("btn_agregar_carrito");
 const btn_vaciar_cart = document.getElementById("vaciar_carrito");
 const btn_finalizar = document.getElementById("finalizar_compra");
 const STAR_RATING = 5;
+const btn_buscar = document.getElementById("btn-buscar");
 const btn_menos = document.getElementById("btn_menos");
 const btn_mas = document.getElementById("btn_mas");
 const cantidad = document.getElementById("cantidad");
 const INICIO = document.getElementById("logo");
 const contenedor_ordenar = document.getElementById("ordenarBy");
-const cards = document.querySelectorAll('.card_producto');
 const ERROR = "error";
 const SUCCESS = "success";
 const MSJ_ERROR = "Error de conexion\n Intentelo mas tarde";
@@ -143,7 +144,7 @@ function inicializarOrdenar(){
 }
 
 async function ordenar(tipo, data=null){
-    let temp = data?data:await fetchData(URL_DATA);
+    let temp = data??await fetchData(URL_DATA);
     if(temp){
         switch(tipo){
             case ORDENAR[0]:
@@ -174,10 +175,9 @@ function removerClass(element,clase, remove_clase){
     temp.forEach(element=>element.classList.remove(remove_clase))
 }
 
-function funcionFiltrar(event){
+async function funcionFiltrar(event){
     if(event.target.id==='limpiarFiltros'){
         limpiarFiltros();
-        showProductos();
     }
     if(event.target.getAttribute("type")==="checkbox"){
         let tipo_filtro = event.target.getAttribute("data-filtro");
@@ -196,6 +196,7 @@ function funcionFiltrar(event){
                 info.categoria.push(element.value);
             }
         });
+        renderizarProductos(realizarFiltros(await ordenar(getTipoOrdenar())));
     }
     
 }
@@ -213,6 +214,15 @@ function realizarFiltros(data){
         });
     }
     return data;  
+}
+
+function buscarProducto(data,info){
+    data = data.filter(element=>{
+        return element.name.toLowerCase().includes(info.toLowerCase());
+    });
+    // console.log(data)
+    return data;
+
 }
 
 function limpiarFiltros(){
@@ -240,6 +250,10 @@ function inicializarFiltros(filtro,array){
     })
 
 }
+function getTipoOrdenar(){
+    return contenedor_ordenar.querySelector(".ordenar-selected")?.id;
+}
+
 // element.classList.toggle('is-hidden',!isShow)
 
 
@@ -249,7 +263,17 @@ function main(){
     mostrar_cantidad_productos();
     
 
-    filtros.onclick = function(event){
+    btn_buscar.onclick = async function(){
+        // console.log("HOLA");
+        let data = await fetchData(URL_DATA);
+        let buscar_p = document.getElementById("input_buscar"); 
+        data = buscarProducto(data,buscar_p.value);
+        buscar_p.value="";
+        limpiarHTML(contenedor_productos);
+        // console.log(data);
+        renderizarProductos(data);
+    };
+    filtros.onclick = async function(event){
         funcionFiltrar(event);
     };
     contenedor_ordenar.onclick = async function(event){
@@ -287,9 +311,12 @@ function main(){
     });
 
     btn_menos.onclick = function(){
+        
         if ((Number(cantidad.value))>1){
             cantidad.value=Number(cantidad.value)-1;
-        }          
+            
+        }  
+               
     }
     btn_mas.onclick = function(){
         if (Number(cantidad.value)<20){
@@ -327,12 +354,12 @@ async function llenarModalProducto(id, brand, name, price, api_featured_image, d
     
     contenedor_modal_producto.id = id;
     
-    img.innerHTML = `<img src="https:${api_featured_image}" class="card-img-top" alt="${name} ${brand?brand:""}">`;
+    img.innerHTML = `<img src="https:${api_featured_image}" class="img-thumbnail" alt="${name} ${brand?brand:""}">`;
     title.innerHTML = brand.toUpperCase()??"";
     subtitle.innerHTML = name;
-    categoria.textContent = `Categoria: ${category}`;
-    descripcion.textContent = `Descripcion: ${description}`;
-    precio.textContent = `$ ${Number(price).toFixed(2)}`;
+    categoria.innerHTML = `<strong>Categoria:</strong> ${category}`;
+    descripcion.innerHTML = `<strong>Descripcion:</strong> ${description}`;
+    precio.innerHTML = `$ ${Number(price).toFixed(2)}`;
     stars.innerHTML = starRating(rating);
 }
 
@@ -403,6 +430,22 @@ async function showProductos(){
 }
 
 function renderizarProductos(productos){
+    if(!productos){
+        ocultarModal(document.querySelector(".title"));
+        ocultarModal(document.querySelector(".filters"));
+        contenedor_productos.classList.remove("row", "row-cols-1", "row-cols-md-3", "row-cols-lg-4");
+        divErrorAPI();
+        return;
+    }
+    if(productos.length===0){
+        ocultarModal(document.querySelector(".title"));
+        contenedor_productos.classList.remove("row", "row-cols-1", "row-cols-md-3", "row-cols-lg-4");
+        divProductoNoEncontrado();
+        return;
+    }
+    // console.log(productos);
+    showModal(document.querySelector(".filters"));
+    contenedor_productos.classList.add("row", "row-cols-1", "row-cols-md-3", "row-cols-lg-4")
     productos.forEach(producto=>{
         const {id, brand, name, price, api_featured_image, description, rating,
         category} = producto;
@@ -413,7 +456,10 @@ function renderizarProductos(productos){
         const class_btn = "btn btn-primary";
         card_producto.innerHTML = `
             <div data-marca="${brand}" data-categoria="${category}" class="card h-100 card_producto" id="card_${id}">
-            <img src="https:${api_featured_image}" class="img-thumbnail" alt="${name}">
+            <div class="card-img">
+                <img src="https:${api_featured_image}" class="img-thumbnail" alt="${name}">
+            </div>
+            
             <div class="card-body">
                 ${brand?`<h5 class="card-title">${brand.toUpperCase()}</h5>`:""}
                 <h6 class="card-subtitle">${name}</h6>
@@ -421,7 +467,7 @@ function renderizarProductos(productos){
                     <div class = "col-6">
                         <p class="card-text card-price">$ ${Number(price).toFixed(2)}</p>
                     </div>
-                    <div class = "col-6">
+                    <div class = "col-6 left">
                         <p class="card-text card-rating">${rating?starRating(rating):""}</p>
                     </div>
                 </div>
@@ -440,8 +486,8 @@ function renderizarProductos(productos){
 
 }
 
-function showModal(modal){
-    modal.style.display = 'block';
+function showModal(modal,mode="block"){
+    modal.style.display = mode;
 }
 
 function ocultarModal(modal){
@@ -449,53 +495,93 @@ function ocultarModal(modal){
     
 }
 
+function divCarritoVacio(){
+    contenedor_carrito.innerHTML = `
+        <div class = "container carrito-vacio">
+            <h5>Tu carrito esta vacio</h5>
+            <button type="button" data-bs-dismiss="offcanvas" class="btn btn-primary" id="comenzar_comprar">Comenzar a comprar</button>
+        </div>
+    `
+    document.querySelector('#comenzar_comprar').onclick = function(){
+        showProductos();
+    };
+}
 
+function divErrorAPI(){
+    contenedor_productos.innerHTML = `
+        <div class="error-datos">
+            <i class="fa-solid fa-bug fa-2xl"></i>
+            <h5>Problemas tecnicos</h5>
+            <h6>Intente mas tarde</h6>
+        </div>
+    `
+}
+function divProductoNoEncontrado(){
+    contenedor_productos.innerHTML = `
+        <div class="no-encontrado">
+            <div>
+                <i class="fa-solid fa-circle-exclamation fa-2xl"></i>
+            </div>
+            <div>
+                <h2>No se ha encontrado el producto</h2>
+            </div>
+
+            
+            
+        </div>
+    `
+}
 function showCarrito(){
     limpiarHTML(contenedor_carrito);
     if(emptyCarrito()){
-        contenedor_carrito.innerHTML = "Su carrito esta vacio";
+        ocultarModal(total_carrito);
+        divCarritoVacio();
     }
     else{
+        showModal(total_carrito);
         carrito.forEach(producto=>{
             const {id, brand, name, price, image, cantidad, subtotal} = producto;
             let card_producto = document.createElement("div");
             
             card_producto.innerHTML = `
-                <div class="card mb-3" style="max-width: 540px;">
+                <div class="card mb-3">
                     <div class="row g-0">
-                        <div class="col-md-4">
+                        <div class="col-4">
                             <img src="https:${image}" class="img-fluid rounded-start" alt="${name}_${brand??""}">
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-8">
                             <div class="card-body">
                                 <h5 class="card-title">${brand.toUpperCase()??""}</h5>
                                 <h6 class="card-subtitle">${name}</h5>
                                 <hr>
                                 <div class = "row cols-2">
-                                    <div class="col">
+                                    <div class="col right">
                                         <p class="card-text">Precio:</p>
                                     </div>
-                                    <div class="col">
+                                    <div class="col left">
                                         <p class="card-text">$${price}</p>
                                     </div>
                                 </div>
                                 <div class = "row cols-2">
-                                    <div class="col">
+                                    <div class="col right">
                                         <p class="card-text">Cantidad:</p>
                                     </div>
-                                    <div class="col">
+                                    <div class="col left">
                                         <p class="card-text">${cantidad}</p>
                                     </div>
                                 </div>
                                 <div class = "row cols-2">
-                                    <div class="col">
+                                    <div class="col right">
                                         <p class="card-text">Subtotal:</p>
                                     </div>
-                                    <div class="col">
+                                    <div class="col left">
                                         <p class="card-text">$${subtotal.toFixed(2)}</p>
                                     </div>
                                 </div>
-                                <button id="${id}" class="btn btn-secondary eliminar-producto"><i class="fa-solid fa-trash"></i></button>
+                                <div class="left eliminar">
+                                    <button id="${id}" class="btn btn-primary eliminar-producto"><i class="fa-solid fa-trash fa-xs"></i></button>
+                                </div>
+                                
                             </div>
                         </div>
                     </div>
@@ -529,21 +615,23 @@ function showCarrito(){
 
 function mostrar_cantidad_productos(){
     if(!emptyCarrito()){
-        shop_cart.style.display ="flex";
-        total_art.style.display='block';
+        showModal(shop_cart,"flex");
+        // shop_cart.style.display ="flex";
+        showModal(total_art);
+        // total_art.style.display='block';
         total_art.innerHTML = `${articulosCarrito()}`;
 
     }
     else{
-        shop_cart.style.display ="block";
-        total_art.style.display='none';
+        showModal(shop_cart);
+        // shop_cart.style.display ="block";
+        ocultarModal(total_art);
+        // total_art.style.display='none';
     }
 }
 
 function calcular_total(){
-
-    total_carrito.innerHTML = emptyCarrito()?"":`Total a pagar:`;
-    total_num.innerHTML = emptyCarrito()?"":`$ ${totalCarrito().toFixed(2)}`;
+    total_num.innerHTML = `$ ${totalCarrito().toFixed(2)}`;
 }
 
 function eliminar_del_carrito(id){
@@ -555,7 +643,7 @@ function eliminar_del_carrito(id){
 
 function finalizar_cart(){
     const text = "Desea finalizar la compra?";
-    const title = "FINALIZADO";
+    const title = "DISFRUTE DE SU COMPRA";
     const msj = "Se ha finalizado la compra"
     confirmarSweetAlert(text,title, msj, finalizarCarrito);
 }
@@ -567,14 +655,6 @@ function vaciar_cart(){
     confirmarSweetAlert(text,title, msj,vaciarCarrito);
     
 }
-
-// Creacion de productos
-// productos_tienda.forEach(producto=>ProductosTienda.crearProducto(producto.id, producto.nombre, producto.precio, producto.categoria, producto.descripcion, producto.cantidad, producto.imagen, producto.enStock));
-
-// cargar carrito
-// Carrito.cargar_carrito_local_storage();
-
-
 
 
 // Obtener los datos desde una API
@@ -619,7 +699,7 @@ function starRating(rating){
 
         // let stars = document.createElement("div");
         // stars.classList.add("star_rating");
-        let stars = rating.toFixed(1);
+        let stars = `${rating.toFixed(1)} `;
         for(let i=0;i<fullStars;i++){
             stars+=`<i class="fa-solid fa-star fa-2xs"></i>`;
         }
@@ -638,6 +718,8 @@ function starRating(rating){
     
     
 }
+
+
 
 // fetchData()
 main();
